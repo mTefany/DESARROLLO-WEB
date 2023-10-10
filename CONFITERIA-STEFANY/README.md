@@ -5,7 +5,7 @@ http://localhost:5000/v1/api/tradicional<br>
 http://localhost:5000/v1/api/goma<br>
 
 Datos de cake a elmacenados en la base de datos ingresados desde el sistema <br>
-![Información desde la base de datos](/readme/image.png)
+![Información desde la base de datos](./readme/image.png)
 
 Para entrar a la pagina completa se ingrea a
 
