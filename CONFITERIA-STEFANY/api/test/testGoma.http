@@ -1,0 +1,35 @@
+post http://localhost:5000/v1/api/goma
+content-type: application/json
+
+{
+    "orden": "1",
+    "nombre": "Gomas Grissly",
+    "precio": "0.10",
+    "descripcion": "GOMAS DE GELATINA OSITOS GRISSLY"
+}
+{
+    "orden": "2",
+    "nombre": "Gomas Trululu",
+    "precio": "0.10",
+    "descripcion": "Gomitas crocantes por fuera y suavecitas por dentro de colores variados y divertidos"
+}
+
+###
+patch http://localhost:5000/v1/api/goma/63681fd87485bb198c739ae3
+content-type: application/json
+
+{
+    "orden": "1",
+    "nombre": "Gomas Grissly",
+    "precio": "0.25",
+    "descripcion": "GOMAS DE GELATINA OSITOS GRISSLY"
+}
+
+###
+get http://localhost:5000/v1/api/goma
+
+###
+get http://localhost:5000/v1/api/goma/63681fd87485bb198c739ae3
+
+###
+delete http://localhost:5000/v1/api/goma/63681fd87485bb198c739ae3

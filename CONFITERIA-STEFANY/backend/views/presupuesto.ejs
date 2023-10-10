@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        <%= title %>
+    </title>
+    <%- include('partials/_header') %>
+</head>
+
+<body>
+    <%- include('partials/_nav') %>
+        <div class="container">
+            <div>
+                <div class="card-body" >
+                    <center>
+                        <h1 class="titulo">Solicita presupuesto</h1>
+                    </center>
+                    
+                </div>
+            </div>
+            <p class="text1">
+                Para facilitarte un presupuesto rellena el formulario con los datos de
+                tu evento y te haremos llegar por mail el presupuesto en base a los
+                datos facilitados. <br />
+                <br />
+                Es importante que rellenes los datos marcados como «requerido» para
+                poder calcular el presupuesto ajustado a tus necesidades, y cuantos más
+                datos sobre el diseño o tipo de producto podremos ajustar el presupuesto
+                a tus necesidades
+            </p>
+            <div class="card">
+
+            
+            <form method="POST" action="#">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="nuevoLabel">
+                        Informacion para presupuesto
+                    </h5>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col">
+                            <label for="exampleFormControlInput1" class="form-label">Nombres</label>
+                            <input type="text" class="form-control" placeholder="First name" aria-label="First name"
+                                required />
+                        </div>
+                        <div class="col">
+                            <label for="exampleFormControlInput1" class="form-label">Apellidos</label>
+                            <input type="text" class="form-control" placeholder="Last name" aria-label="Last name"
+                                required />
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label for="exampleFormControlInput1" class="form-label">Correo Electronico</label>
+                        <input type="email" class="form-control" id="exampleFormControlInput1"
+                            placeholder="name@example.com" required />
+                    </div>
+                    <div class="col">
+                        <label for="inputAddress" class="form-label">Direccion de evento</label>
+                        <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" required />
+                    </div>
+                    <div class="col">
+                        <label for="inputAddress" class="form-label">Fecha de evento</label>
+                        <input type="datetime-local" class="form-control" id="datetime" required />
+                    </div>
+                    <br />
+                    <div class="input-group mb-3">
+                        <label for="inputAddress" class="form-label">Porciones para el evento</label>
+                        <input type="text" class="form-control" required />
+                        <span class="input-group-text">porcion</span>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Tipo de evento</span>
+                        <input type="text" class="form-control" aria-label="Sizing example input"
+                            aria-describedby="inputGroup-sizing-default" required />
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Tematica</span>
+                        <input type="text" class="form-control" aria-label="Sizing example input"
+                            aria-describedby="inputGroup-sizing-default" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlTextarea1" class="form-label">Detalle adicional</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+                </div>
+
+                <div class=" text-center">
+                    <div class="card-body">
+                        <a type="button" class="btn btn-secondary boton4" href="/" data-dismiss="modal">
+                            Cancelar
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <button type="submit" name="nuevo" class="btn btn-primary boton4">
+                            Guardar <i class="fas fa-save"></i>
+                        </button>
+
+                    </div>
+                        
+                    
+                </div>
+            </form>
+        </div>
+        </div>
+
+        <%- include('partials/_footer') %>
+</body>
+
+</html>

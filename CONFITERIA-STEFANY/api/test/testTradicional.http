@@ -1,0 +1,35 @@
+post http://localhost:5000/v1/api/tradicional
+content-type: application/json
+
+{
+    "orden": "1",
+    "nombre": "Kransekake",
+    "precio": "5.00",
+    "descripcion": "Dulce tradicional de panadería escandinava"
+}
+{
+    "orden": "2",
+    "nombre": "Mithai",
+    "precio": "2.50",
+    "descripcion": "Postre de confiteria de India"
+}
+
+###
+patch http://localhost:5000/v1/api/tradicional/636810da8c288f293c5a7edb
+content-type: application/json
+
+{
+    "orden": "2",
+    "nombre": "Mithai",
+    "precio": "2.50",
+    "descripcion": "Dulce de confiteria de India"
+}
+
+###
+get http://localhost:5000/v1/api/tradicional
+
+###
+get http://localhost:5000/v1/api/tradicional/636810da8c288f293c5a7edb
+
+###
+delete http://localhost:5000/v1/api/tradicional/636810da8c288f293c5a7edb

@@ -1,0 +1,151 @@
+
+
+.header {
+    background: url(../images/fondoinicio.jpg) no-repeat center;
+    background-size: cover;
+    min-height: 10vh;
+  }
+
+  .header .navbar {
+    background-color: transparent !important;
+  }
+
+.frase{
+    text-align: center;
+    font-family: Comic Sans MS,Arial,Verdana;
+}
+
+.nav-link {
+    align-content: center;
+    color: rgb(0, 0, 0);
+    /* font-family: impact; */
+    font-size: 19px;
+    line-height: 70%;
+    /* letter-spacing: 3px; */
+}
+
+.navbarDropdown{
+    font-family: impact; 
+}
+
+
+.login{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 14%;
+}
+
+.text-dark{
+    text-align: center;
+    color: black;
+}
+.card-group{
+    margin: 100px 25px;
+}
+.foot{
+    font-size: 25px;
+}
+.nav-item{
+    text-align: center;
+    padding-top: 10px;
+
+}
+
+footer{
+    /* background: url(../images/fondoinicio.jpg) no-repeat center; */
+    background-color: rgb(253, 253, 247);
+    background-size: cover;
+    min-height: 10vh;
+    position: relative;
+    bottom: 0px;
+    width: 100%;
+    color: rgb(90, 69, 69);
+}
+
+.bi{
+    color: rgb(3, 31, 54);
+}
+
+.boton3{
+          
+    text-decoration: none;
+    display:inline-block;
+    width:60%;
+    padding:10px;
+    background: rgb(255, 198, 222);
+    width:110%;
+    text-align: center;
+    color:rgb(59, 54, 54);
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0px 0px 10px 2px rgb(185, 75, 158);
+
+   }
+
+  .boton3:hover{
+
+    box-shadow: 0px 0px 20px 5px rgb(255, 166, 225);
+    
+  }
+
+  .boton4{
+            
+    text-decoration: none;
+    display:inline-block;
+    width:50%;
+    padding:10px;
+    background: rgb(155, 115, 165);
+    width:60%;
+    text-align: center;
+    color:white;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.9s ease;
+    box-shadow: -5px 1px 3px 0px rgb(165, 32, 99);
+    border-radius: 10px 20px;
+
+  }
+
+
+  .boton4:hover{
+            
+    background: rgb(182, 187, 182);
+    color:rgb(126, 126, 126);
+    box-shadow:none;
+    border-radius: 10px;
+
+  }
+
+  .boton1{
+
+    width:15% !important;
+    padding:5px !important;
+    border-radius:20px !important;
+    font-size: 10px !important;
+    
+  }
+
+  .text1{
+    font-size: 18px !important;
+  }
+
+  .uno a {
+    text-align:center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    background-color: #CCCCCC;
+    text-decoration: none;
+    color: #000000;
+}
+.uno a:hover {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    background-color: #000000;
+    text-decoration: none;
+    color: #FF0000;
+}
+
+.titulo{
+    font-family: Tahoma, Geneva, Verdana, sans-serif;
+    color:rgb(104, 33, 98)
+}

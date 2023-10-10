@@ -1,0 +1,35 @@
+post http://localhost:5000/v1/api/cake
+content-type: application/json
+
+{
+    "orden": "1",
+    "nombre": "Petits fours",
+    "precio": "4.00",
+    "descripcion": "Dulces diseñados de panaderia"
+}
+{
+    "orden": "2",
+    "nombre": "Bundt Cake",
+    "precio": "8.00",
+    "descripcion": "forma redonda con agujero y del cual podemos encontrar infinidad de acabados artísticos"
+}
+
+###
+patch http://localhost:5000/v1/api/cake/63682760e26c79237043a381
+content-type: application/json
+
+{
+    "orden": "2",
+    "nombre": "Bundt Cake",
+    "precio": "8.00",
+    "descripcion": "forma redonda con agujero contiene acabados artísticos"
+}
+
+###
+get http://localhost:5000/v1/api/cake
+
+###
+get http://localhost:5000/v1/api/cake/63682760e26c79237043a381
+
+###
+delete http://localhost:5000/v1/api/cake/63682760e26c79237043a381
