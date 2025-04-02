@@ -1,0 +1,60 @@
+--Modificar bien el resultado al imprimir que muestre un policia y que salga de que unidad ha sido
+--jefe dicho policia ya que en el modelo relacional debe de estar la tabla policia relacionada con
+--la tabla unidad de muchos a muchos ya que un oficial puede ser jefe de muchas unidades a su largo 
+--tiempo y una unidad tiene muchos policias.
+create or replace function unidadpertenece(int)
+returns  varchar
+as $$
+	DECLARE 
+		datoingre alias for $1;
+		datos RECORD;
+		cur_datos  cursor for SELECT 
+		  	sum(count(unidad.unidad_asignada)) total,
+			unidad.unidad_asignada as unidad, 
+		  	unidad_policia.id_policia as id,
+			policia.nombres as nombre
+			FROM unidad 
+		  	inner join unidad_policia on unidad_policia.id_unidades = unidad.id_unidades
+			inner join policia on policia.id_policia = unidad_policia.id_policia
+			WHERE unidad_policia.id_policia=$1
+			group by
+			unidad.unidad_asignada , 
+		  	unidad_policia.id_policia ,
+			policia.nombres ;
+begin
+	OPEN cur_datos;
+		FETCh cur_datos INTO datos;
+		RAISE NOTICE 
+			'
+			POLICIA: % 
+			
+        ESTE POLICIA HA SIDO JEFE DE %  UNIDADES NOMBRADAS A CONTINUACION
+			',
+			datos.nombre, datos.total;
+		while (found) loop 
+			RAISE NOTICE 
+			'
+			UNIDAD: 
+			
+			% 
+			',
+			datos.unidad;
+			FETCh cur_datos INTO datos;
+		end loop;
+END;
+$$ LANGUAGE plpgsql;
+
+SELECT unidadpertenece(1)
+
+
+
+
+
+
+
+
+
+
+
+
+

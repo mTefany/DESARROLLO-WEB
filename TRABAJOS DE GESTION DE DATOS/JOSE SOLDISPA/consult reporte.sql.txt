@@ -1,0 +1,10 @@
+SELECT 
+  matricula.fecha_inicio_matricula, 
+  programa.nom_programa,
+  count(programa.nom_programa)
+FROM 
+  programa
+  inner join matricula on programa.id_programa = matricula.id_programa
+GROUP BY 
+  matricula.fecha_inicio_matricula, 
+  programa.nom_programa;

@@ -1,0 +1,45 @@
+-- trigger que impida matricular a un infante en el mismo programa varias veces 
+
+create or replace function impida_matricular()
+returns trigger as $$
+	declare 
+	nombre_infa varchar(20);
+	programa varchar(50);
+	total_nom_en_progr int;
+begin
+	SELECT 
+		infante.nom_infante, 
+		programa.nom_programa,
+		count(infante.nom_infante) as total
+	into
+		nombre_infa,
+		programa,
+		total_nom_en_progr
+	FROM matricula
+		inner join infante on  matricula.id_infante = infante.id_infante 
+		inner join programa on programa.id_programa = matricula.id_programa
+	where
+	    infante.id_infante=new.id_infante and programa.id_programa=new.id_programa
+	group by 
+		infante.nom_infante, 
+		programa.nom_programa,
+		programa.id_programa;
+		
+	if (total_nom_en_progr > 1) then /**/
+		raise exception 'Este infante ya esta matriculado en este programa ya no se puede inscribir';
+	end if;
+	return new;/**/
+end;
+$$
+Language plpgsql;	
+
+
+CREATE trigger matricula_denegada after insert
+	on matricula  for each row
+	execute procedure impida_matricular();
+
+insert into matricula values ('matric0020','infante001','programa02','21/02/2021','21/05/2021','Excelente');
+
+
+
+

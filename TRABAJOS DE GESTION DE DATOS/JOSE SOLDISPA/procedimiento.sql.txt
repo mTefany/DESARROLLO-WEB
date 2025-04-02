@@ -1,0 +1,32 @@
+create or replace function mostrar_dato_programa(varchar(40))
+returns  text
+as $$
+	DECLARE 
+		nombre_programa alias for $1;
+		datos_programas RECORD;
+		cur_programa  cursor for SELECT 
+		  programa.nom_programa as nombre, 
+		  programa.material_programa as materiales, 
+		  programa.desc_programa as descripcion, 
+		  programa.cant_cupos_programa as cupos 
+		FROM 
+		  public.programa
+		WHERE
+		  programa.nom_programa =$1;
+begin
+	OPEN cur_programa;
+		FETCh cur_programa INTO datos_programas;
+		while (found) loop 
+			RAISE NOTICE '
+Nombre: %  
+Descripcion: % 
+Materiales: %  
+Cupos: % 
+			',datos_programas.nombre, datos_programas.materiales, datos_programas.descripcion, datos_programas.cupos;
+			FETCh cur_programa INTO datos_programas;
+		end loop;
+END;
+$$ LANGUAGE plpgsql;
+
+SELECT mostrar_dato_programa('Desarrollo Intelectual')
+	

@@ -1,0 +1,12 @@
+--REPORTE QUE MUESTRE 
+
+SELECT 	
+	calificacion.periodo,
+	(SELECT count(calificacion.aprobado) AS APROBADA FROM calificacion WHERE calificacion.aprobado='t'  ),
+	(SELECT count(calificacion.reprobado) AS REPROBADA FROM calificacion WHERE calificacion.reprobado='t' ) 
+FROM
+	calificacion inner join estudiante on calificacion.id_estudiante = estudiante.id_estudiante
+GROUP BY
+	calificacion.periodo,
+	calificacion.aprobado,
+	calificacion.reprobado

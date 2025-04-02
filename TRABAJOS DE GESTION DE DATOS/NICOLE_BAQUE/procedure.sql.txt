@@ -1,0 +1,21 @@
+-- Procedimiento almacenado que devuleva el nombre del representante de un estudiante que se le ingrese 
+
+create or replace function familiar_estudiante(integer)
+returns  varchar
+as $$
+	declare 
+	 estudiante alias for $1;
+	 familiar varchar(50);
+begin
+	select 
+	  concat(representante.nombres_del_padre||' '||representante.apellidos_del_padre) as representante
+	  into  familiar FROM representante 
+	  inner join estudiante on estudiante.id_representante = representante.id_representante
+	WHERE estudiante.id_estudiante = $1;
+	RETURN familiar ;
+			 
+end;
+$$
+Language plpgsql;
+
+SELECT familiar_estudiante('06')

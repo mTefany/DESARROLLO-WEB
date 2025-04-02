@@ -1,0 +1,122 @@
+-----------------------------------------------------------------------------------
+-- Realizar un trigger que impida vacunar si tine falta de hidratacion 
+-----------------------------------------------------------------------------------
+
+
+--funcion que retorna un trigger
+create or replace function ingresovacuna()
+returns trigger as $$
+	declare 
+		visitaobservada int;
+begin
+	SELECT count(observacion_visita) into visitaobservada	FROM visita 
+	where id_visita=new.id_visita and observacion_visita =  'Falta de hidratacion ';
+	if (visitaobservada >0) then /**/
+		raise exception '
+		Esta mascota no se puede vacunar por ue tiene falta de hidratacion y no le hara bien
+		';
+		
+	end if;
+	return new;/**/
+end;
+$$
+Language plpgsql;	
+		 
+
+--trigger
+CREATE trigger recibirvacuna before insert
+	on vacuna_mascota  for each row
+	execute procedure ingresovacuna();
+
+--insercion con trigger
+insert into vacuna_mascota values('vacuna0011','visita0001', 'Hepatitis', 'Primera dosis','5.50', '1/2/2021');
+
+
+-------------------------------------------------------------------------------------------------------------------
+-- Realizar un cursor que muestre el nombre de la mascota, la raza, el asunto de la visita, el doctor
+-- que atendio a la mascota y la observacion que le dio 
+-------------------------------------------------------------------------------------------------------------------
+
+do 
+	$$
+	DECLARE 
+		datos_mascota RECORD;
+		cur_mascota  cursor for SELECT 
+		  visita.observacion_visita as observacion, 
+		  mascota.raza_mascota as raza, 
+		  mascota.nom_mascota as mascota, 
+		  concat(doc_veterinario.nom_doctor||' '||doc_veterinario.apell_doctor) as doctor,
+		  visita.asunto_visita as visita
+		FROM public.visita
+		  inner join public.mascota on   mascota.id_mascota = visita.id_mascota
+		  inner join public.doc_veterinario on doc_veterinario.id_doctor = visita.id_doctor;
+	BEGIN	
+		OPEN cur_mascota;
+		FETCh cur_mascota INTO datos_mascota;
+		while (found) loop 
+		RAISE NOTICE 
+		'
+		NOMBRE DE LA MASCOTA: % 
+		RAZA DE LA MASCOTA: % 
+		ASUNTO DE LA VISITA: % 
+		DOCTOR: % 
+		OBSERVACION: % 
+		
+		',
+		 datos_mascota.mascota, datos_mascota.raza, datos_mascota.visita, datos_mascota.doctor, datos_mascota.observacion;
+		FETCh cur_mascota INTO datos_mascota;
+	end loop;	
+	end $$
+	Language 'plpgsql';
+	
+	
+-------------------------------------------------------------------------------------------------------------------
+-- Realizar un procedimiento almacenado donde se ingrese el nombre de la vacuna con el cual se muestre a 
+-- cuantas mascotas se le puso aquella vacuna
+-------------------------------------------------------------------------------------------------------------------
+
+	create or replace function mostrar_mascota(varchar)
+	returns  integer
+	as $mostrar_mascota$
+		declare 
+		 vacunanom alias for $1;
+		 totalmascota int;
+	begin
+		select  count(vacuna_mascota.nom_vacuna) into  totalmascota 
+		FROM visita
+			inner join vacuna_mascota on vacuna_mascota.id_visita = visita.id_visita 
+			inner join public.mascota on visita.id_mascota = mascota.id_mascota
+		WHERE 
+			vacuna_mascota.nom_vacuna=$1
+		GROUP BY 
+			vacuna_mascota.nom_vacuna;
+		
+				return totalmascota;
+	end;
+	$mostrar_mascota$
+	Language plpgsql;
+
+	SELECT mostrar_mascota('Rabia')
+
+-------------------------------------------------------------------------------------------------------------------
+-- Realizar un reporte donde se muestre el nombre del cliente, las mascotas ingresadas, vacuna que
+-- le han puesto y la fecha.
+-------------------------------------------------------------------------------------------------------------------
+SELECT 
+  concat (cliente.nom_cliente||' '||cliente.apell_cliente) as cliente, 
+  concat (doc_veterinario.nom_doctor||' '||doc_veterinario.apell_doctor) as doctor, 
+  veterinaria.nom_veterinaria as nombrevetrinaria, 
+  veterinaria.dirc_veterinaria as direccion veterinaria, 
+  veterinaria.telf_veterinaria as telefonoveterinaria,
+  count(vacuna_mascota.nom_vacuna) as mascota
+FROM 
+  cliente
+  inner join veterinaria on cliente.id_veterinaria = veterinaria.id_veterinaria 
+  inner join doc_veterinario on  veterinaria.id_veterinaria = doc_veterinario.id_veterinaria
+  inner join visita on visita.id_doctor = doc_veterinario.id_doctor
+  inner join vacuna_mascota on vacuna_mascota.id_visita = visita.id_visita
+GROUP BY
+  cliente.nom_cliente, cliente.apell_cliente, 
+  doc_veterinario.nom_doctor, doc_veterinario.apell_doctor,
+  veterinaria.nom_veterinaria,  veterinaria.dirc_veterinaria, 
+  veterinaria.telf_veterinaria, vacuna_mascota.nom_vacuna

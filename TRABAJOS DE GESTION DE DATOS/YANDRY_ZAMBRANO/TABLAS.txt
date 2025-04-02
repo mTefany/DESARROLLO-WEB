@@ -1,0 +1,43 @@
+
+/*==============================================================*/
+/* Table: EMBARCACION                              */
+/*==============================================================*/
+create table EMBARCACION (
+   CODIGO_EMBARCACION SERIAL               not null,
+   CODIGO_PUERTO        INT4                   null,
+   CODI_BARCO           INT4                   null,
+   CEDULA_TRIPULANTE    VARCHAR(10)                   null,
+   ESTADO_DE_EMBARCACION CHAR(20)          not null,
+	
+   constraint PK_EMBARCACION primary key (CODIGO_EMBARCACION)
+);
+
+alter table EMBARCACION
+   add constraint FK_EMBARCACION_RELATIONS_PUERTO_P foreign key (CODIGO_PUERTO)
+      references PUERTO_PESQUERO (CODIGO_PUERTO)
+      on delete restrict on update restrict;
+	  
+alter table EMBARCACION
+   add constraint FK_EMBARCACION_RELATIONS_BARCO_PE foreign key (CODI_BARCO)
+      references BARCO_PESQUERO (CODI_BARCO)
+      on delete restrict on update restrict;
+	  
+alter table EMBARCACION
+   add constraint FK_EMBARCACION__RELATIONS_TRIPULAN foreign key (CEDULA_TRIPULANTE)
+      references TRIPULANTES (CEDULA_TRIPULANTE)
+      on delete restrict on update restrict;
+
+
+INSERT INTO EMBARCACION (CODIGO_EMBARCACION,CODIGO_PUERTO,CODI_BARCO,CEDULA_TRIPULANTE,ESTADO_DE_EMBARCACION)VALUES
+(1, 1111,1001,'1316842151', 'COMPLETA' );
+INSERT INTO EMBARCACION (CODIGO_EMBARCACION,CODIGO_PUERTO,CODI_BARCO,CEDULA_TRIPULANTE,ESTADO_DE_EMBARCACION)VALUES
+(2, 1111,1003,'1316842151', 'COMPLETA' );
+INSERT INTO EMBARCACION (CODIGO_EMBARCACION,CODIGO_PUERTO,CODI_BARCO,CEDULA_TRIPULANTE,ESTADO_DE_EMBARCACION)VALUES
+(3, 1111,1004,'1316842151', 'INCOMPLETA' )
+
+varc
+insert into permiso_de_tripulante(codigo_permiso,cedula_tripulante,fecha_emision,fecha_caducidad, estado_permiso)values
+(7008,1316842151,'01/08/2020','01/07/2021', 'caducado');
+
+insert into permiso_de_tripulante(codigo_permiso,cedula_tripulante,fecha_emision,fecha_caducidad, estado_permiso)values
+(7009,145260121,'10/01/2020','10/01/2021', 'al dia')

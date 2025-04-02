@@ -1,0 +1,25 @@
+--CURSOR QUE MUESTRE EL NUMERO DE ESTUDIANTES QUE SE QUEDAN EN RECUPERACION CON CADA PROFESOR 
+
+do 
+$$
+DECLARE 
+	RECUPERACION RECORD;
+	CUR_ESTUDIANTES  cursor for SELECT 
+	concat ( profesor.nombre_del_profesor || ' ' || profesor.apellido_del_profesor ) AS profesor, 
+	COUNT(profesor.nombre_del_profesor) AS estu_recuperar
+	FROM calificacion INNER JOIN profesor ON profesor.id_profesor = calificacion.id_profesor
+	WHERE(calificacion.nota_final)< 14
+	GROUP BY profesor.nombre_del_profesor, profesor.apellido_del_profesor;
+BEGIN	
+	OPEN CUR_ESTUDIANTES;
+	FETCh CUR_ESTUDIANTES INTO RECUPERACION;
+	while (found) loop 
+	RAISE NOTICE '
+	Lcd. % 
+
+	Estudiantes a recuperacion: % ', RECUPERACION.profesor, RECUPERACION.estu_recuperar;
+	FETCh CUR_ESTUDIANTES INTO RECUPERACION;
+end loop;	
+end $$
+Language 'plpgsql';
+	

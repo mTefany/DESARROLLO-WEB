@@ -1,0 +1,30 @@
+--TRIGGER QUE PERMITA ACTUALIZAR LA CANTIDAD DE ESUDIANTES EN UN PERIODO CADA VEZ QUE SE MATRICULE
+--UN ESTUDIANTE
+	 
+--FUNCION
+
+create OR REPLACE function actualizar_estudiantes ()
+returns trigger as 
+$$
+	begin
+		UPDATE CURSO SET CANTIDAD_ESTUDIANTE_CURSO  = (CANTIDAD_ESTUDIANTE_CURSO  + 1 )
+		WHERE ID_CURSO = NEW.ID_CURSO;
+		RETURN NULL;
+	end;
+$$
+Language 'plpgsql';
+
+--TRIGGER 
+
+CREATE trigger actualizar_estudiantes after insert
+on matricula  for each row
+execute procedure actualizar_estudiantes();
+
+--INSERCION
+
+insert into MATRICULA  values('01121', '03', '113', '0113', '8','8','0');
+update MATRICULA set nota_final=(nota_parcial1+nota_pacial2) where id_matricula=01121; 
+
+--VERIFICAR SI AUMENTO EL CURSO 
+
+SELECT * FROM CURSO

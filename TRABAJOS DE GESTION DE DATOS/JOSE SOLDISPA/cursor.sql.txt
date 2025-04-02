@@ -1,0 +1,34 @@
+--cursor que muestre la cantidad de niños y la cantidad de niñas insritos en vada fecha del programa
+
+do 
+	$$
+	DECLARE 
+		datos_infan RECORD;
+		cur_infante  cursor for 
+		SELECT 
+			sum((select  count(infante.genero_infante) from infante where infante.genero_infante='M' 
+				 and id_infante=matricula.id_infante) )as hombre,
+			sum((select  count(infante.genero_infante) from infante where infante.genero_infante='F' 
+				 and id_infante=matricula.id_infante) )as mujer,
+		  matricula.fecha_inicio_matricula as fecha
+		FROM 
+		  matricula
+		  inner join infante on  matricula.id_infante = infante.id_infante
+		group by
+		  matricula.fecha_inicio_matricula;
+	BEGIN	
+		OPEN cur_infante;
+		FETCh cur_infante INTO datos_infan;
+		while (found) loop 
+		RAISE NOTICE 
+		'
+		Fecha: % 
+		Cantida de niños: % 
+		Cantidad de niñas: % 
+		',
+		datos_infan.fecha, datos_infan.hombre, datos_infan.mujer;
+		FETCh cur_infante INTO datos_infan;
+	end loop;	
+	end $$
+	Language 'plpgsql';
+	

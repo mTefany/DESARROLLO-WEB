@@ -1,0 +1,417 @@
+
+/*==============================================================*/
+/* Table: AFILIADO                                              */
+/*==============================================================*/
+create table AFILIADO (
+   ID_AFILIADO          CHAR(10)             not null,
+   ID_SERVCIO           CHAR(10)             null,
+   CED_AFILIADO         CHAR(10)             not null,
+   NOMS_AFILIADO        CHAR(50)             not null,
+   APELLS_AFILIADO      CHAR(50)             not null,
+   DIRC_AFILIADO        CHAR(50)             not null,
+   F_NACIMIENTO_AFILIADO DATE                 not null,
+   EMAIL_AFILIADO       CHAR(60)             not null,
+   TELF_AFILIADO        CHAR(15)             not null,
+   TELF_CONVENCIONAL_AFILIADO CHAR(15)             not null,
+   GENERO_AFILIADO      CHAR(1)              not null,
+   ESTADO_CIVIL_AFILIADO CHAR(15)             not null,
+   F_REGISTRO_AFILIADO  DATE                 not null,
+   constraint PK_AFILIADO primary key (ID_AFILIADO)
+);
+
+/*==============================================================*/
+/* Index: AFILIADO_PK                                           */
+/*==============================================================*/
+create unique index AFILIADO_PK on AFILIADO (
+ID_AFILIADO
+);
+
+/*==============================================================*/
+/* Index: TIPOSERVICIO_AFILIADO_FK                              */
+/*==============================================================*/
+create  index TIPOSERVICIO_AFILIADO_FK on AFILIADO (
+ID_SERVCIO
+);
+
+/*==============================================================*/
+/* Table: AFILIADO_RESERVA_CITA                                 */
+/*==============================================================*/
+create table AFILIADO_RESERVA_CITA (
+   ID_AFILIADO          CHAR(10)             not null,
+   ID_RESERVA           CHAR(10)             not null,
+   constraint PK_AFILIADO_RESERVA_CITA primary key (ID_AFILIADO, ID_RESERVA)
+);
+
+/*==============================================================*/
+/* Index: AFILIADO_RESERVA_CITA_PK                              */
+/*==============================================================*/
+create unique index AFILIADO_RESERVA_CITA_PK on AFILIADO_RESERVA_CITA (
+ID_AFILIADO,
+ID_RESERVA
+);
+
+/*==============================================================*/
+/* Index: RELATIONSHIP_6_FK                                     */
+/*==============================================================*/
+create  index RELATIONSHIP_6_FK on AFILIADO_RESERVA_CITA (
+ID_RESERVA
+);
+
+/*==============================================================*/
+/* Index: RELATIONSHIP_5_FK                                     */
+/*==============================================================*/
+create  index RELATIONSHIP_5_FK on AFILIADO_RESERVA_CITA (
+ID_AFILIADO
+);
+
+/*==============================================================*/
+/* Table: ASEGURADORA                                           */
+/*==============================================================*/
+create table ASEGURADORA (
+   ID_ASEGURADORA       CHAR(10)             not null,
+   NOM_ASEGURADORA      CHAR(50)             not null,
+   DIRC_ASEGURADORA     CHAR(50)             not null,
+   TELF_ASEGURADORA     CHAR(15)             not null,
+   EMAIL_ASEGURADORA    CHAR(60)             not null,
+   constraint PK_ASEGURADORA primary key (ID_ASEGURADORA)
+);
+
+/*==============================================================*/
+/* Index: ASEGURADORA_PK                                        */
+/*==============================================================*/
+create unique index ASEGURADORA_PK on ASEGURADORA (
+ID_ASEGURADORA
+);
+
+/*==============================================================*/
+/* Table: CASA_DE_SALUD                                         */
+/*==============================================================*/
+create table CASA_DE_SALUD (
+   ID_CASA_SALUD        CHAR(10)             not null,
+   NOM_CASA_SALUD       CHAR(50)             not null,
+   DIRC_CASA_SALUD      CHAR(50)             not null,
+   EMAIL_CASA_SALUD     CHAR(60)             not null,
+   TELF_CASA_SALUD      CHAR(15)             not null,
+   CONVENIO_CASA_SALUD  BOOL                 not null,
+   constraint PK_CASA_DE_SALUD primary key (ID_CASA_SALUD)
+);
+
+/*==============================================================*/
+/* Index: CASA_DE_SALUD_PK                                      */
+/*==============================================================*/
+create unique index CASA_DE_SALUD_PK on CASA_DE_SALUD (
+ID_CASA_SALUD
+);
+
+/*==============================================================*/
+/* Table: DETALLE_CITA                                          */
+/*==============================================================*/
+create table DETALLE_CITA (
+   ID_DETALLE           CHAR(10)             not null,
+   ID_MEDICO            CHAR(10)             null,
+   ID_RESERVA           CHAR(10)             null,
+   DESCRIPCION_CITA     CHAR(50)             not null,
+   OBSERVACION_CITA     CHAR(75)             not null,
+   F_PROXIMA_CITA       DATE                 not null,
+   constraint PK_DETALLE_CITA primary key (ID_DETALLE)
+);
+
+/*==============================================================*/
+/* Index: DETALLE_CITA_PK                                       */
+/*==============================================================*/
+create unique index DETALLE_CITA_PK on DETALLE_CITA (
+ID_DETALLE
+);
+
+/*==============================================================*/
+/* Index: RELATIONSHIP_7_FK                                     */
+/*==============================================================*/
+create  index RELATIONSHIP_7_FK on DETALLE_CITA (
+ID_MEDICO
+);
+
+/*==============================================================*/
+/* Index: RELATIONSHIP_8_FK                                     */
+/*==============================================================*/
+create  index RELATIONSHIP_8_FK on DETALLE_CITA (
+ID_RESERVA
+);
+
+/*==============================================================*/
+/* Table: MEDICO                                                */
+/*==============================================================*/
+create table MEDICO (
+   ID_MEDICO            CHAR(10)             not null,
+   NOMS_MEDICO          CHAR(50)             not null,
+   APELLS_MEDICO        CHAR(50)             not null,
+   F_NACIMIENTO_MEDICO  DATE                 not null,
+   GENERO_MEDICO        CHAR(1)              not null,
+   TELF_MEDICO          CHAR(15)             not null,
+   DIRC_MEDICO          CHAR(50)             not null,
+   ESPECIALIDAD_MEDICO  CHAR(50)             not null,
+   NUM_HABITACION_MEDICO CHAR(2)              not null,
+   NUM_PISO_MEDICO      CHAR(2)              not null,
+   constraint PK_MEDICO primary key (ID_MEDICO)
+);
+
+/*==============================================================*/
+/* Index: MEDICO_PK                                             */
+/*==============================================================*/
+create unique index MEDICO_PK on MEDICO (
+ID_MEDICO
+);
+
+/*==============================================================*/
+/* Table: REGISTRO_RESERVA_CITA                                 */
+/*==============================================================*/
+create table REGISTRO_RESERVA_CITA (
+   ID_RESERVA           CHAR(10)             not null,
+   ID_CASA_SALUD        CHAR(10)             null,
+   FECHA_RESERVA        DATE                 not null,
+   HORA_RESERVA         DATE                 not null,
+   MOTIVO_RESERVA       CHAR(50)             not null,
+   ESTADO_RESERVA       BOOL                 not null,
+   constraint PK_REGISTRO_RESERVA_CITA primary key (ID_RESERVA)
+);
+
+/*==============================================================*/
+/* Index: REGISTRO_RESERVA_CITA_PK                              */
+/*==============================================================*/
+create unique index REGISTRO_RESERVA_CITA_PK on REGISTRO_RESERVA_CITA (
+ID_RESERVA
+);
+
+/*==============================================================*/
+/* Index: RELATIONSHIP_1_FK                                     */
+/*==============================================================*/
+create  index RELATIONSHIP_1_FK on REGISTRO_RESERVA_CITA (
+ID_CASA_SALUD
+);
+
+/*==============================================================*/
+/* Table: TIPO_SERVICIO                                         */
+/*==============================================================*/
+create table TIPO_SERVICIO (
+   ID_SERVCIO           CHAR(10)             not null,
+   ID_ASEGURADORA       CHAR(10)             null,
+   NOM_SERVCIO          CHAR(50)             not null,
+   DESC_SERVCIO         CHAR(50)             not null,
+   RECARGO_SERVCIO      NUMERIC(4,2)         not null,
+   constraint PK_TIPO_SERVICIO primary key (ID_SERVCIO)
+);
+
+/*==============================================================*/
+/* Index: TIPO_SERVICIO_PK                                      */
+/*==============================================================*/
+create unique index TIPO_SERVICIO_PK on TIPO_SERVICIO (
+ID_SERVCIO
+);
+
+/*==============================================================*/
+/* Index: ASEGURADORA_TIPOSERVICIO_FK                           */
+/*==============================================================*/
+create  index ASEGURADORA_TIPOSERVICIO_FK on TIPO_SERVICIO (
+ID_ASEGURADORA
+);
+
+alter table AFILIADO
+   add constraint FK_AFILIADO_TIPOSERVI_TIPO_SER foreign key (ID_SERVCIO)
+      references TIPO_SERVICIO (ID_SERVCIO)
+      on delete restrict on update restrict;
+
+alter table AFILIADO_RESERVA_CITA
+   add constraint FK_AFILIADO_RELATIONS_AFILIADO foreign key (ID_AFILIADO)
+      references AFILIADO (ID_AFILIADO)
+      on delete restrict on update restrict;
+
+alter table AFILIADO_RESERVA_CITA
+   add constraint FK_AFILIADO_RELATIONS_REGISTRO foreign key (ID_RESERVA)
+      references REGISTRO_RESERVA_CITA (ID_RESERVA)
+      on delete restrict on update restrict;
+
+alter table DETALLE_CITA
+   add constraint FK_DETALLE__RELATIONS_MEDICO foreign key (ID_MEDICO)
+      references MEDICO (ID_MEDICO)
+      on delete restrict on update restrict;
+
+alter table DETALLE_CITA
+   add constraint FK_DETALLE__RELATIONS_REGISTRO foreign key (ID_RESERVA)
+      references REGISTRO_RESERVA_CITA (ID_RESERVA)
+      on delete restrict on update restrict;
+
+alter table REGISTRO_RESERVA_CITA
+   add constraint FK_REGISTRO_RELATIONS_CASA_DE_ foreign key (ID_CASA_SALUD)
+      references CASA_DE_SALUD (ID_CASA_SALUD)
+      on delete restrict on update restrict;
+
+alter table TIPO_SERVICIO
+   add constraint FK_TIPO_SER_ASEGURADO_ASEGURAD foreign key (ID_ASEGURADORA)
+      references ASEGURADORA (ID_ASEGURADORA)
+      on delete restrict on update restrict;
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  /*insert*/
+insert into aseguradora values ('aseg01','Seguros Ecuador', 'Guillermo Balda','0989052228','ecua@gmail.com');
+insert into aseguradora values ('aseg02','Seguros Quito', 'Calle Quito','0989052201','SeguroQuito@gmail.com');
+insert into aseguradora values ('aseg03','Seguros Eloy Alfaro', 'Calle 10 de Enero','0989052202','SeguroEloy@gmail.com');
+insert into aseguradora values ('aseg04','Seguros Carlos', 'Calle Bolivar','0989052203','SeguroCarlos@gmail.com');
+insert into aseguradora values ('aseg05','Seguros Humanos', 'Calle Alajuela','0989052204','SeguroHumanos@gmail.com');
+insert into aseguradora values ('aseg06','Bupa Global', 'Calle 10 Agosto','0989052205','SeguroBupaGlobal@gmail.com');
+insert into aseguradora values ('aseg07','Seguros Global', 'Calle 20 de febrero','0989052206','SeguroGlobal@gmail.com');
+insert into aseguradora values ('aseg08','Seguros Provincial', 'Via Piedional','0989052207','SeguroProvincial@gmail.com');
+insert into aseguradora values ('aseg09','Seguros Nacional', 'Calle de la 7 Curvas','0989052208','SeguroNaciona@gmail.com');
+insert into aseguradora values ('aseg09','Seguros Nacional', 'Calle de la 7 Curvas','0989052208','SeguroNaciona@gmail.com');
+insert into aseguradora values ('aseg10','Seguros Manabi', 'Metropolitana','0989052209','SeguroManabi@gmail.com');
+
+select *from aseguradora
+
+
+insert into aseguradora values ('aseg10','Seguros Manabi', 'Metropolitana','0989052209','SeguroManabi@gmail.com');
+
+
+
+select *from tipo_servicio
+insert into tipo_servicio values ('servi01','aseg01', 'Revision Medica','Revision medica simple','15.50');
+insert into tipo_servicio values ('servi02','aseg01', 'Cuadro Medico','El asegurado dispone de series de revisiones','75.45');
+insert into tipo_servicio values ('servi03','aseg01', 'Asistencia de Cirugias','Revision para cirugias medicas','90.00');
+insert into tipo_servicio values ('servi04','aseg01', 'Enfermedades terminales','Revision para enfermedades terminales','45.90');
+
+
+select *from casa_de_salud
+
+insert into casa_de_salud values ('Casa01','Hopital Marvella', 'Guillermo Balda','hospitalmarvella@hotmail.com','+593 999556221','1');
+insert into casa_de_salud values ('Casa02','Hopital karla', 'Calle Osvaldo','hospitalKarla@hotmail.com','+593 999556222','1');
+insert into casa_de_salud values ('Casa03','Hopital Maria', 'Calle 10 de Enero','hospitalMaria@hotmail.com','+593 999556223','1');
+insert into casa_de_salud values ('Casa04','Hopital Jose', 'Calle 20 de febrero','hospitalJose@hotmail.com','+593 999556224','1');
+insert into casa_de_salud values ('Casa06','Hopital IES', 'Via Manta','hospitalIES@hotmail.com','+593 999556226','0');
+insert into casa_de_salud values ('Casa07','Hopital Manta', 'Calle 13','hospitalManta@hotmail.com','+593 999556227','0');
+insert into casa_de_salud values ('Casa08','Hopital Montecristi', 'Calle Eloy Alfaro','hospitalMontecristi@hotmail.com','+593 999556228','0');
+
+
+select *from medico
+insert into medico values ('','Leixer Steeven', 'Lucas Mero','08/01/2001','1','+593 997731172','Calle Alajuela','Cirugia Plastica','C1',01);
+insert into medico values ('1350721511','Leixer Steeven', 'Lucas Mero','08/01/2001','1','+593 997731172','Calle Alajuela','Cirugia Plastica','C1',01);
+insert into medico values ('1350721512','Elvis Ariel', 'Mero Acosta','04/02/2000','M','+593 997731173','Metropolitana','Operacion de urgencia','C2','01');
+insert into medico values ('1350721512','Elvis Ariel', 'Mero Acosta','04/02/2000','M','+593 997731173','Metropolitana','Operacion de urgencia','C2','01');
+insert into medico values ('1350721513','Rosa Maria', 'Delgado Flores','20/08/1999','F','+593 997731174','Metropolitana','Anestesiologa','A2','02');
+insert into medico values ('1350721514','Manuel Alejandro', 'Flores Espinales','20/08/1998','M','+593 997731175','Guillermo Balda','Cirugia Pediatrica','C2','02');
+insert into medico values ('1350721515','Rosa Maribel', 'Mero Acosta','20/08/1995','F','+593 997731176','Guillermo Balda','Neonatologa','A2','02');
+
+
+
+
+
+select *from afiliado
+
+insert into afiliado values ('afi01','servi01','1304827932','Adriana Carolina','Hernandez Monterroza','Calle 10','08/01/2001','adriana@gmail.com','+593 997731172','05 2311256','F','Casada','05/01/2020');
+insert into afiliado values ('afi02','servi01','1304827931','Adriana Marcela','Rey Sanchez','Calle 12','08/01/2000','marcela@gmail.com','+593 995141801','05 2311251','F','Soltera','05/06/2021');
+insert into afiliado values ('afi03','servi02','1304827933','Alejandro','Rey Sanchez','Calle 12','08/01/2000','alejandro@gmail.com','+593 995141802','05 2311253','M','Soltera','05/06/2021');
+insert into afiliado values ('afi04','servi02','1304827934','Alexander','Carvajal Vargas','Calle 14','12/12/1999','alexander@gmail.com','+593 995141803','05 2311252','M','Casado','10/02/2021');
+insert into afiliado values ('afi05','servi03','1304827935','Andres Felipe','Villa Monroy','Calle 16','06/10/1999','felipe@gmail.com','+593 995141804','05 2311254','M','Casado','01/02/2021');
+insert into afiliado values ('afi06','servi04','1304827936','Camilo','Rodriguez Botero','Calle 18','12/12/2001','camilo@gmail.com','+593 995141805','05 2311255','M','Divorciado','10/02/2021');
+insert into afiliado values ('afi07','servi04','1304827937','Carlos Andres','Pintor Pinzon','Calle 14','01/01/1999','Carlos@gmail.com','+593 995141806','05 2311256','M','Casado','08/010/2020');
+
+select *from registro_reserva_cita
+insert into registro_reserva_cita values ('reser01','Casa01','10/07/2021','10/07/2021 13:00:00.59','Cirugia','1');
+insert into registro_reserva_cita values ('reser02','Casa02','10/07/2021','10/07/2021 18:00:00.59','Revision Medica','0');
+insert into registro_reserva_cita values ('reser03','Casa03','20/07/2021','20/07/2021 07:30:00.59','Cirugia','1');
+insert into registro_reserva_cita values ('reser04','Casa04','10/10/2021','10/10/2021 15:00:00.59','Revision Medica','1');
+insert into registro_reserva_cita values ('reser05','Casa05','19/08/2021','19/08/2021 15:00:00.59','Cirugia','1');
+insert into registro_reserva_cita values ('reser06','Casa02','15/07/2021','15/07/2021 15:00:00.59','Cirugia','1');
+insert into registro_reserva_cita values ('reser07','Casa01','01/10/2021','01/10/2021 15:00:00.59','Cirugia','1');
+
+select *from detalle_cita
+insert into detalle_cita values ('deta01','1350721511','reser01','Cirugia','Se realizo con exito','02/02/2022');
+insert into detalle_cita values ('deta02','1350721511','reser01','Cirugia','Se realizo con exito','02/02/2022');
+insert into detalle_cita values ('deta03','1350721511','reser01','Cirugia','Se realizo con exito','02/02/2022');
+insert into detalle_cita values ('deta04','1350721512','reser02','Revision medica','Se realizo con exito','02/02/2022');
+insert into detalle_cita values ('deta05','1350721512','reser02','Revision medica','Se realizo con exito','02/02/2022');
+insert into detalle_cita values ('deta06','1350721513','reser03','Cirugia','Se realizo con exito','02/02/2022');
+insert into detalle_cita values ('deta0','1350721514','reser04','Revision Medica','Se realizo con exito','02/02/2022');
+
+
+select *from afiliado_reserva_cita
+
+insert into afiliado_reserva_cita values ('afi01','reser01');
+insert into afiliado_reserva_cita values ('afi01','reser02');
+insert into afiliado_reserva_cita values ('afi01','reser03');
+insert into afiliado_reserva_cita values ('afi01','reser04');
+insert into afiliado_reserva_cita values ('afi02','reser01');
+insert into afiliado_reserva_cita values ('afi02','reser02');
+insert into afiliado_reserva_cita values ('afi02','reser03');
+insert into afiliado_reserva_cita values ('afi03','reser01');
+insert into afiliado_reserva_cita values ('afi04','reser02');
+insert into afiliado_reserva_cita values ('afi05','reser05');
+insert into afiliado_reserva_cita values ('afi06','reser03');
+insert into afiliado_reserva_cita values ('afi07','reser02');
+
+
+
+/*CONSULTAS*/
+
+/*•	Cuales doctores fueron asignados para atender a un mismo afiliado*/
+SELECT 
+  afiliado.id_afiliado, 
+  afiliado.noms_afiliado, 
+  medico.noms_medico,
+  medico.especialidad_medico
+FROM public.registro_reserva_cita
+inner join public.afiliado_reserva_cita on registro_reserva_cita.id_reserva = afiliado_reserva_cita.id_reserva
+inner join public.afiliado on afiliado.id_afiliado = afiliado_reserva_cita.id_afiliado
+inner join public.detalle_cita on detalle_cita.id_reserva = registro_reserva_cita.id_reserva
+inner join public.medico on medico.id_medico = detalle_cita.id_medico
+
+WHERE 
+afiliado.id_afiliado='afi01'
+ 
+ group by medico.noms_medico, afiliado.id_afiliado, medico.especialidad_medico
+
+
+
+/*•	Cantidad de veces de reservaciones que cada afiliado a realizado.*/
+  
+SELECT 
+  afiliado.id_afiliado, 
+  afiliado.noms_afiliado, 
+  count(registro_reserva_cita.id_reserva)as cantidad_cita
+FROM public.registro_reserva_cita
+inner join public.afiliado_reserva_cita on registro_reserva_cita.id_reserva = afiliado_reserva_cita.id_reserva
+inner join public.afiliado on afiliado.id_afiliado = afiliado_reserva_cita.id_afiliado
+inner join public.detalle_cita on detalle_cita.id_reserva = registro_reserva_cita.id_reserva
+inner join public.medico on medico.id_medico = detalle_cita.id_medico
+  group by afiliado.id_afiliado
+  order by cantidad_cita desc
+  
+  
+  
+   /*•	Cantidad de citas atendidas por cada casa de salud afiliada.*/
+  
+  SELECT 
+  casa_de_salud.nom_casa_salud, 
+  casa_de_salud.convenio_casa_salud,
+  registro_reserva_cita.estado_reserva,
+  count (registro_reserva_cita.id_reserva)as cantidad_cita
+FROM public.registro_reserva_cita
+inner join public.afiliado_reserva_cita on registro_reserva_cita.id_reserva = afiliado_reserva_cita.id_reserva
+inner join public.afiliado on afiliado.id_afiliado = afiliado_reserva_cita.id_afiliado
+inner join public.detalle_cita on detalle_cita.id_reserva = registro_reserva_cita.id_reserva
+inner join public.casa_de_salud on registro_reserva_cita.id_casa_salud = casa_de_salud.id_casa_salud 
+  where registro_reserva_cita.estado_reserva = 'true'
+  group by casa_de_salud.nom_casa_salud, casa_de_salud.convenio_casa_salud, registro_reserva_cita.estado_reserva

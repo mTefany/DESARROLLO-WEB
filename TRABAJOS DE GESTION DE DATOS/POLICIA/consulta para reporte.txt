@@ -1,0 +1,14 @@
+SELECT 
+  unidad.unidad_asignada as unidad_asgnada, 
+  count(unidad.unidad_asignada) as totalmision
+FROM 
+  public.unidad, 
+  public.unidad_policia, 
+  public.policia, 
+  public.mision
+WHERE 
+  unidad_policia.id_unidades = unidad.id_unidades AND
+  policia.id_policia = unidad_policia.id_policia AND
+  mision.id_policia = policia.id_policia
+GROUP BY
+ unidad.unidad_asignada

@@ -1,0 +1,11 @@
+Trigger:
+Cuando una persona ha tenido dos reputaciones malas no puede volver a tener más citas 
+
+Cursores:
+Por cada persona, se diga en cuántos locales ha estado y con cuántas parejas 
+
+Procedimiento Almacenado:
+Pasar parámetros de entrada: nombre de dispositivo establecimiento diga cuáles son las personas atendidas 
+
+Reporte:
+Ireport de cuántas personas se han sido atendidas en locales

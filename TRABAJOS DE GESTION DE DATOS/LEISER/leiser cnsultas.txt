@@ -1,0 +1,120 @@
+------------------------------------------------------------------------------
+----------------------------------TRIGGER-------------------------------------
+------------------------------------------------------------------------------
+
+create or replace function reservacion()
+returns trigger as $$
+	declare 
+	horacita varchar(10);
+	fecha varchar(10));
+	total_motivo int;
+begin
+	SELECT hora_reserva into horacita from registro_reserva_cita where hora_reserva=new.hora_reserva;
+	SELECT fecha_reserva into fecha from registro_reserva_cita where fecha_reserva=horacita;
+	SELECT count(motivo_reserva) into  total_motivo from registro_reserva_cita 
+	where motivo_reserva='Cirugia' and fecha_reserva=fecha;
+	if (total_motivo > 0) then /**/
+		raise exception 'No se puede reservar esta cita el espacio esta ocupado en ese momento para cirugia';
+	end if;	
+	RETURN new;
+end;
+$$
+Language plpgsql;	
+
+
+CREATE trigger reservacion_negada before insert
+	on registro_reserva_cita  for each row
+	execute procedure reservacion();
+
+insert into registro_reserva_cita values 
+('reser013','Casa01','01/12/2021','01/12/2021','Cirugia','1');
+
+
+select * from registro_reserva_cita
+
+
+------------------------------------------------------------------------------
+----------------------------------CURSOR--------------------------------------
+------------------------------------------------------------------------------
+do $$
+DECLARE 
+	datos_aseguradora RECORD;
+	cur_aseguradora cursor for SELECT 
+	  registro_reserva_cita.fecha_reserva as fecha,
+	  concat(afiliado.noms_afiliado||' '||afiliado.apells_afiliado) as cliente,
+	  afiliado.ced_afiliado as cedula,  
+	  concat(medico.noms_medico||' '||medico.apells_medico) as doctor,
+	  registro_reserva_cita.motivo_reserva as motivo
+	FROM afiliado
+	  INNER JOIN afiliado_reserva_cita ON afiliado_reserva_cita.id_afiliado = afiliado.id_afiliado
+	  INNER JOIN registro_reserva_cita ON afiliado_reserva_cita.id_reserva = registro_reserva_cita.id_reserva
+	  INNER JOIN detalle_cita ON detalle_cita.id_reserva = registro_reserva_cita.id_reserva
+	  INNER JOIN medico ON detalle_cita.id_medico = medico.id_medico
+	WHERE
+	 detalle_cita.observacion_cita = 'Se realizo con exito';
+BEGIN	
+	OPEN cur_aseguradora;
+	FETCh cur_aseguradora INTO datos_aseguradora;
+	while (found) loop 
+	RAISE NOTICE 
+	'El doctor % atendio al cliente %
+	con cedula % el % por motivo de % 
+	',
+	datos_aseguradora.doctor, datos_aseguradora.cliente, datos_aseguradora.cedula,
+	datos_aseguradora.fecha, datos_aseguradora.motivo;
+	FETCh cur_aseguradora INTO datos_aseguradora;
+end loop;	
+end $$
+Language 'plpgsql';
+
+  
+------------------------------------------------------------------------------
+----------------------------------PROCEDIMIENTO-------------------------------
+------------------------------------------------------------------------------
+
+  
+  CREATE OR REPLACE function eliminar_reserva(varchar, date) 
+  RETURNS bool
+  as $$
+  	  DECLARE
+		motivo alias for $1;
+		fecha alias for $2;
+		reserva varchar(10);
+      BEGIN
+	  	 select id_reserva into reserva from registro_reserva_cita 
+		 where motivo_reserva=$1 and fecha_reserva=$2;
+		 
+         DELETE FROM afiliado_reserva_cita WHERE id_reserva=reserva;
+		 DELETE FROM detalle_cita WHERE id_reserva=reserva;
+		 DELETE FROM registro_reserva_cita WHERE motivo_reserva=$1 and fecha_reserva=$2;
+		 
+         RAISE NOTICE 'Las reservas para el 10 de septiembre por motivo de quirofano ocupados se han eliminado';
+		 return true;
+      end;
+  $$
+  Language 'plpgsql';
+
+SELECT eliminar_reserva('Cirugia', '20/07/2021')
+
+
+------------------------------------------------------------------------------
+----------------------------------REPORTE-------------------------------------
+------------------------------------------------------------------------------
+SELECT 
+  medico.especialidad_medico as especialidad, 
+  concat(medico.noms_medico||' '||medico.apells_medico) as medico, 
+  count(medico.id_medico)as total_reservacion, 
+  registro_reserva_cita.fecha_reserva as fecha_reserva
+FROM 
+  medico, 
+  detalle_cita,
+  registro_reserva_cita
+WHERE 
+  detalle_cita.id_medico = medico.id_medico AND
+  registro_reserva_cita.id_reserva = detalle_cita.id_reserva
+GROUP BY 
+  medico.especialidad_medico, 
+  medico.noms_medico, 
+  medico.apells_medico, 
+  medico.id_medico, 
+  registro_reserva_cita.fecha_reserva;

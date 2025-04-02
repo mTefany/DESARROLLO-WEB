@@ -1,0 +1,26 @@
+
+Tutorías virtuales 
+
+ADMBD
+IS
+GESTBD A	La empresa “software para educación” desea prestar un servicio de tutorías en internet.
+La empresa accede a medios a través de los cuales da tutorías como lo son:  Zoom, Microsoft Teams, Skype o cualquier otro medio que la empresa adquiera, es relevante almacenar el plan que la empresa compra, el tiempo de inicio y fin de dicho plan, valor, número de usuarios que se pueden conectar. Se debe almacenar a que personas de la institución se asignan los planes, estos bien podrían asignarse a uno o varios individuos.
+Las tutorías tienen una naturaleza más corta que un curso, he allí la diferencia, por ello puede darse con duración de unas cuantas horas, o unos cuantos días. Los orígenes de la tutoría pueden ser distintos, por ejemplo: estudiantes de universidad que requieren apoyos en alguna tarea, investigadores que requieran apoyo en aspectos de tesis, padres de familia sobre problemas con hijos, orientación vocacional, etc. 
+La empresa a parte de trabajar con personas contratadas presencialmente, también puede trabajar con tutores de otras provincias o países, a los cuales debe identificar en la base de datos. Cuando se registran tutores extranjeros, la base de datos debe estar lista para almacenar enlaces web de documentos que corroboren la experiencia del tutor, todo esto para tener un respaldo de la experiencia de todos.
+El pago siempre se hace por horas de tutorías, las horas son establecidas por un acuerdo entre el jefe de la empresa y el tutor, luego se muestra el precio y una descripción de la tutoría en el sitio web de la institución, el usuario aceptará o rechazará la propuesta. Adicional a esto, la empresa realiza una breve encuesta de la tutoría realizada en la que el beneficiario elegirá entre: satisfactorio, regular, malo. Para aquellos tutores que obtengan calificación satisfactoria, la empresa dará 25% adicional sobre el precio total de la tutoría realizada.
+Se debe almacenar información de tutores y tutorados: CI, Nombres, Apellidos, profesión, teléfono, correo. 
+De las tutorías es importante almacenar: horario, fecha, descripción, medio en el que se realiza la tutoría. Adicional establecer su enlace, grupo o sala respectiva. Al finalizar la tutoría el Docente procederá a colocar el tema que se abarcó dentro de la misma y generar el listado de los estudiantes que accedieron a la sala.
+
+Cosas adicionales que podría tener un sistema de este tipo en la asignatura “ingeniería del software” (son opcionales, pero debe cumplir lo que haga usted al menos todo lo que está escrito arriba): 
+-	Sistema de bitácora de conversaciones entre el tutor y los tutorados.
+-	Sistema de bitácora de conversaciones entre atención al cliente y clientes potenciales.
+
+Cosas obligatorias en las asignaturas “Administración de bases de datos” o “Gestión de Bases de Datos” (los siguientes enunciados son opcionales en la asignatura “ingeniería del software”):
+-	Mostrar el top descendente a todos los profesores que han dado tutorías, deben listarse primero el grupo de los tutores externos y luego los de contratación propia.
+-	Mostrar por año y mes cuanto la empresa ha recibido en ingresos por tutorías.
+-	Mostrar por país y por provincia la cantidad de estudiantes a los que el centro ha dado tutorías.
+-	Mostrar por año la cantidad de propuestas de tutoría rechazadas.
+-	2do Parcial. Un cursor que muestre por año y mes cuanto la empresa ha pagado en tutorías a profesores, cuanto ha recibido de los estudiantes, y cuál es la utilidad.
+-	2do Parcial. Un procedimiento almacenado que reciba como parámetro el codigo de un tutor y muestre el total de estudiantes que ha tenido.
+-	2do Parcial. En un campo en la tabla tutor llamado “numerotutorias”, hacer que el campo se incremente cada vez que el tutor ha concluido de dar una tutoría.
+-	2do Parcial. Un reporte en barras de la cantidad de tutorias dadas por cada tutor.
